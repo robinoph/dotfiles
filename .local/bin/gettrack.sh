@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# First, check if playerctl is currently playing something. Exit the script if that is not the case
-if [ $(playerctl status | grep -q -v 'Playing')]; then
-  exit 1
+# First, check if playerctl is currently playing something. Don't return anything if nothing is playing
+CHECK=$(playerctl status | grep -q -v 'Playing')
+if [ $? -ne 0 ]; then
+  echo ""
 fi
 
 TITLE=$(playerctl metadata | grep xesam:title | awk '{ s = ""; for (i = 3; i <= NF; i++) s = s $i " "; print s }')
