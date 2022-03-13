@@ -1,0 +1,195 @@
+### Modifier keys
+set $mod Mod4
+set $alt Mod1
+
+### Nav keys
+set $left h
+set $down j
+set $up k
+set $right l
+
+
+## Touchpad
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+   dwt enabled
+   tap enabled
+   natural_scroll disabled
+   middle_emulation enabled
+}
+
+
+# Output
+## Monitors (swaymsg -t get_outputs)
+### Kanshi
+exec_always kanshi
+
+### Brightness-control
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+
+## Wallpaper
+output * bg wallpaper fill
+
+
+## Sway bar config
+bar {
+    swaybar_command waybar
+}
+bindsym $mod+Ctrl+r exec pkill -SIGUSR2 waybar
+
+
+
+# Base commands & settings
+## Base commands
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+## X11 compatibility
+xwayland enable
+
+## Lock and suspend
+bindsym $mod+F1 exec swaylock
+bindsym $mod+End exec "systemctl suspend && swaylock"
+
+
+
+# Workspaces and windows
+## Variables
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+
+## Workspace focus
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+
+## Move workspaces between outputs
+bindsym $mod+$alt+$left move workspace to output left
+bindsym $mod+$alt+$down move workspace to output down
+bindsym $mod+$alt+$up move workspace to output up
+bindsym $mod+$alt+$right move workspace to output right
+
+
+## Window settings
+default_border pixel 2
+gaps inner 10
+
+
+## Window manipulation
+bindsym $mod+q kill
+floating_modifier $mod normal
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+## Window focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+
+## Move windows relativly
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Move windows between workspaces
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+
+## Layouts
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+x layout toggle split
+bindsym $mod+f fullscreen toggle
+
+
+
+# Applications
+## Theme settings
+set $gnome-scheme org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema gtk-theme Arc-Darker
+    gsettings set $gnome-schema icon-theme Paper
+}
+
+
+## Launching
+bindsym $mod+Return exec alacritty
+bindsym $mod+Space exec 'rofi -modi run,drun -show drun'
+bindsym $mod+d exec 'rofi -modi run,drun -show drun'
+
+
+## Workspace assignments (`swaymsg -t get_tree`)
+assign [class="Thunderbird"] $ws9
+assign [app_id="pavucontrol"] $ws10
+for_window [class="Spotify"] move to workspace $ws10
+
+
+## Autostart
+exec_always --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec --no-startup-id lxpolkit
+exec_always --no-startup-id mako
+# exec --no-startup-id thunderbird
+
+## Application-specific settings
+for_window [title="Firefox — Sharing Indicator"] floating enable
+for_window [title="Firefox — Sharing Indicator"] nofocus
+
+# Media keys
+## Volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+## Playerctl
+bindsym $mod+Down exec playerctl play-pause -p spotify
+bindsym $mod+Left exec playerctl previous -p spotify
+bindsym $mod+Right exec playerctl next -p spotify
+bindsym $mod+Up exec playerctl play-pause
+
+## Screenshots
+bindsym Print exec grimshot save screen ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym Ctrl+Print exec grimshot copy screen ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym Shift+Print exec grimshot save active ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym Ctrl+Shift+Print exec grimshot copy active ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym $alt+Print exec grimshot save area ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym Ctrl+$alt+Print exec grimshot copy area ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png

@@ -1,0 +1,12 @@
+#! /bin/sh
+
+#
+# ANSIBLE MANAGED by dmaes/wsconfig
+#
+
+set -e
+
+git submodule update --init $@
+for path; do true; done # https://stackoverflow.com/a/1853993
+~/.local/bin/git-hooks $path
+

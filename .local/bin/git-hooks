@@ -1,0 +1,27 @@
+#! /bin/sh
+
+#
+# ANSIBLE MANAGED by dmaes/wsconfig
+#
+
+set -e
+
+fail() {
+  echo $1
+  exit 1
+}
+
+wd=$(pwd)
+[ ! -z "$1" ] && cd $1
+
+hooksdir=$(git rev-parse --git-path hooks)
+
+[ -z $hooksdir ] && fail "Could not find hooks directory. Is this a git repository?"
+
+hooks=$(ls ~/.githooks)
+for hook in $hooks; do
+  echo "Linking hook: $hook -> ~/.githooks/$hook"
+  ln -sf ~/.githooks/$hook $hooksdir/$hook
+done
+
+cd $wd

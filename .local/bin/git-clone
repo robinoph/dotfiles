@@ -1,0 +1,21 @@
+#! /bin/sh
+
+#
+# ANSIBLE MANAGED by dmaes/wsconfig
+#
+
+set -e
+
+if [[ "$1" == "--no-custom" ]]; then
+  shift
+  git clone $@
+else
+  wd=$PWD
+  temp=$(mktemp /tmp/git-custom-clone.XXXXXX)
+  git clone --progress $@ 2>&1 | tee $temp
+  dest=$(cat $temp | grep -E '^Cloning into' | sed -e "s/^Cloning into '//" -e "s/'...$//g")
+  cd $dest
+  ~/.local/bin/git-hooks
+  cd $wd
+  rm $temp
+fi

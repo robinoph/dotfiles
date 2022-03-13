@@ -1,0 +1,41 @@
+#!/bin/zsh
+
+# Manipulate $PATH
+export PATH="$PATH:$HOME/.local/bin" # .local/bin to path
+export PATH="$PATH:$HOME/.local/share/gem/ruby/3.0.0/bin" # Add ruby gems to path
+export PATH="$PATH:$HOME/.local/share/cargo/bin" # Add rust tools to path
+export PATH="$PATH:/usr/local/go/bin:$HOME/.local/share/go/bin" # Add Golang tools to path
+
+# Default programs
+export EDITOR="lvim"
+export TERMINAL="alacritty"
+export BROWSER="firefox"
+
+# VARS that helps us move dotfiles to .config that are normally located in $HOME
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/x11/xinitrc"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export LESSHISTFILE="-"
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
+export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/shell/inputrc"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/password-store"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+
+# Other stuff
+export MOZ_USE_XINPUT="1" # Mozilla smooth scrolling
+
+# GPG
+# Move gnupg folder from $HOME to .local/share
+export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
+# The following allows the gpg-agent to be a drop-in replacement for the
+# regular SSH agent. Primarily useful when working with yubikeys
+unset SSH_AGENT_PID
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)

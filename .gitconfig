@@ -1,0 +1,44 @@
+# vi: ft=gitconfig
+
+[user]
+  email = robinoph@inuits.eu
+  name = Robin Ophalvens
+
+[core]
+  editor = lvim
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  side-by-side = true
+
+[diff]
+  colorMoved = default
+
+[pull]
+  rebase = true
+  autoStash = true
+
+[init]
+  defaultBranch = master
+
+[commit]
+  gpgsign = false
+
+[alias]
+  l = !~/.local/bin/git-fzf-log
+  get = !~/.local/bin/git-clone
+  sub = !~/.local/bin/git-sub
+  hooks = !~/.local/bin/git-hooks
+  bump-subs = submodule update --jobs 8 --remote
+  subs = submodule update --recursive --jobs 8
+  url = remote get-url origin
+  com = commit -S -v
+  s = status
+  pr = pull --rebase
+
+[includeIf "gitdir:~/homelab/"]
+  path = ~/homelab/.gitconfig

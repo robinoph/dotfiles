@@ -1,0 +1,11 @@
+# Mako is a notification daemon for wayland
+default-timeout=3000
+[urgency=low]
+border-color=#cccccc
+
+[urgency=normal]
+border-color=#d08770
+
+[urgency=high]
+border-color=#bf616a
+default-timeout=0
