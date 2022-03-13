@@ -2,7 +2,7 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/RobinOphalvens/dotfiles.svg?style=flat-square)
 [![GitHub license](https://img.shields.io/github/license/RobinOphalvens/dotfiles.svg?style=flat-square)](https://github.com/RobinOphalvens/dotfiles/blob/master/LICENSE)
-[![Mirror](https://img.shields.io/badge/mirror-https%3A%2F%2Fgit.ophalvens.eu%2Frobinoph%2Fdotfiles-blue)]
+![Mirror](https://img.shields.io/badge/mirror-https%3A%2F%2Fgit.ophalvens.eu%2Frobinoph%2Fdotfiles-blue)
 
 ## Disclaimer
 
