@@ -1,0 +1,6 @@
+#!/bin/zsh
+alias pacsearch="pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S"
+
+alias pacdel="pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns"
+alias gco="git branch -a | fzf --multi --preview 'git diff --color {1} origin/master' | xargs -ro git checkout"
+alias ll='exa -lah'

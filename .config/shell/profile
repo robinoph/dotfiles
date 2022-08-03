@@ -8,13 +8,14 @@ export PATH="$PATH:/usr/local/go/bin:$HOME/.local/share/go/bin" # Add Golang too
 
 # Default programs
 export EDITOR="lvim"
-export TERMINAL="alacritty"
+export TERMINAL="footclient"
 export BROWSER="firefox"
 
 # VARS that helps us move dotfiles to .config that are normally located in $HOME
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
 export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/x11/xinitrc"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
 export LESSHISTFILE="-"
@@ -27,6 +28,9 @@ export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
 export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+alias wget="wget --hsts-file='$XDG_DATA_HOME/wget-hsts'"
+alias mbsync=mbsync -c "$XDG_CONFIG_HOME"/isync/mbsyncrc
 
 # Other stuff
 export MOZ_USE_XINPUT="1" # Mozilla smooth scrolling
