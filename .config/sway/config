@@ -42,7 +42,7 @@ bindsym $mod+Ctrl+r exec pkill -SIGUSR2 waybar
 # Base commands & settings
 ## Base commands
 bindsym $mod+Shift+r reload
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+e exec '$HOME/.config/rofi/bin/applet_powermenu'
 
 ## X11 compatibility
 xwayland enable
@@ -88,7 +88,7 @@ bindsym $mod+$alt+$right move workspace to output right
 
 
 ## Window settings
-default_border pixel 2
+default_border pixel 4
 gaps inner 10
 
 
@@ -152,9 +152,10 @@ exec_always {
 
 
 ## Launching
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec footclient
 bindsym $mod+Space exec 'rofi -modi run,drun -show drun'
-bindsym $mod+d exec 'rofi -modi run,drun -show drun'
+bindsym $mod+d exec '$HOME/.config/rofi/bin/launcher_colorful'
+bindsym $mod+g exec '$HOME/.config/rofi/bin/sshl'
 
 
 ## Workspace assignments (`swaymsg -t get_tree`)
@@ -166,7 +167,9 @@ for_window [class="Spotify"] move to workspace $ws10
 ## Autostart
 exec_always --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec --no-startup-id lxpolkit
+exec --no-startup-id 'foot --server'
 exec_always --no-startup-id mako
+exec --no-startup-id gammastep -l 50.85045:4.34878
 # exec --no-startup-id thunderbird
 
 ## Application-specific settings
