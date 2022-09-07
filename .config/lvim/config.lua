@@ -6,56 +6,51 @@ filled in as strings with either
 a global executable or a path to
 an executable
 ]]
-vim.opt.clipboard = "unnamedplus"
+-- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
 -- general
-lvim.transparent_window = true
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
--- Enable text wrapping
-vim.opt.wrap = true
+lvim.colorscheme = "tokyonight"
+lvim.wrap = true
 
--- keymappings [view all the defaults by pressing <leader>Lk]
--- Change leader from default space to comma
-lvim.leader = ","
--- add your own keymapping
+lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.builtin.dashboard.active = false
+
+-- TODO: User Config for predefined plugins
+-- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
+  "c",
   "json",
   "lua",
   "python",
+  "css",
   "rust",
-  "java",
   "yaml",
 }
 
-lvim.builtin.treesitter.ignore_install = { "haskell" }
+lvim.builtin.treesitter.ignore_install = { "haskell", "java" }
 lvim.builtin.treesitter.highlight.enabled = true
 
--- Additional Plugins
- lvim.plugins = {
-     {"rodjek/vim-puppet"},
-     {"vim-syntastic/syntastic"},
-     {"tpope/vim-surround"},
-     {"ntpeters/vim-better-whitespace"},
-     {"martinda/Jenkinsfile-vim-syntax"},
-     {"junegunn/vim-easy-align"},
-     {"lukas-reineke/indent-blankline.nvim"},
-     {"andymass/vim-matchup"},
-     {"rcarriga/nvim-notify"},
- }
+lvim.plugins = {
+  { "ntpeters/vim-better-whitespace" },
+  { "rodjek/vim-puppet" },
+  { "martinda/Jenkinsfile-vim-syntax" },
+  { "thecodesmith/vim-groovy" },
+  { "folke/tokyonight.nvim" },
+}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- lvim.autocommands.custom_groups = {
---   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
--- }
-lvim.autocommands.custom_groups = {
-  {"BufWinEnter", "*.pp", "set formatoptions=cro"},
-}
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.groovy", "Jenkinsfile" },
+  command = "set tabstop=4 shiftwidth=4",
+})
