@@ -11,14 +11,14 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "onedark"
 lvim.wrap = true
 
+-- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
@@ -33,6 +33,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "json",
   "lua",
   "python",
+  "tsx",
   "css",
   "rust",
   "yaml",
@@ -46,11 +47,13 @@ lvim.plugins = {
   { "rodjek/vim-puppet" },
   { "martinda/Jenkinsfile-vim-syntax" },
   { "thecodesmith/vim-groovy" },
-  { "folke/tokyonight.nvim" },
+  { "tpope/vim-abolish" },
+  { "lunarvim/colorschemes" },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.groovy", "Jenkinsfile" },
+  -- enable wrap mode for json files only
   command = "set tabstop=4 shiftwidth=4",
 })
