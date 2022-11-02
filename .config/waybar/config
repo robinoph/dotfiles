@@ -1,117 +1,110 @@
-// vi: ft=json
 {
-  // "layer": "top",
   "position": "top",
-  "height": 30,
   "modules-left": [
     "sway/workspaces",
-    "sway/mode",
-    "custom/playerctl"
+    "custom/media",
+    "custom/cava-internal"
   ],
   "modules-center": [
     "clock"
   ],
   "modules-right": [
-    "memory",
-    "custom/dnf-upgrades",
     "pulseaudio",
-    "network#wifi",
-    "network#wired",
-    "network#vpn",
-    "battery",
+    "memory",
+    "cpu",
+    "network",
+    "custom/vpn",
+    "custom/powermenu",
     "tray"
   ],
-  "sway/mode": {
-    "format": "<span style=\"italic\">{}</span>"
+  "custom/cava-internal": {
+    "exec": "~/.local/bin/cava",
+    "tooltip": false,
   },
-  "tray": {
-    // "icon-size": 21,
-    "spacing": 10
+  "sway/workspaces": {
+    "disable-scroll": true,
   },
-  "clock": {
-    "interval": 1,
-    "format": "{:%Y-%m-%d - %H:%M:%S}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-  },
-  "battery": {
-    "states": {
-      // "good": 95,
-      "warning": 30,
-      "critical": 15
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": "",
     },
-    "format": "{icon} {capacity}% ",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-alt": "{time} {icon}",
-    // "format-good": "", // An empty format will hide the module
-    // "format-full": "",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
-  },
-  "network#wifi": {
-    "interval": 5,
-    "interface": "wlp*",
-    "format-wifi": " {essid} ({signalStrength}%)",
-    "format-linked": "",
-    "format-disconnected": "",
-    "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
-  },
-  "network#wired": {
-    "interval": 5,
-    "interface": "enp*",
-    "format-ethernet": "",
-    "format-linked": "",
-    "format-disconnected": "",
-    "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
-  },
-  "network#vpn": {
-    "interval": 5,
-    "interface": "tun1",
-    "format": " {ifname}",
-    "format-linked": "",
-    "format-disconnected": "",
-    "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
+    "tooltip": false,
   },
   "pulseaudio": {
-    // "scroll-step": 1, // %, can be a float
-    "format": "{icon} {volume}% {format_source}",
-    "format-bluetooth": "{volume}% {icon} {format_source}",
-    "format-bluetooth-muted": " {icon} {format_source}",
-    "format-muted": " {format_source}",
-    "format-source": " {volume}%",
-    "format-source-muted": "",
+    "scroll-step": 1,
+    "format": "{icon} {volume}%",
+    "format-muted": "婢 Muted",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
       "default": [
         "",
         "",
         ""
-      ]
+      ],
     },
-    "on-click": "pavucontrol"
+    "states": {
+      "warning": 100,
+    },
+    "on-click": "pamixer -t",
+    "tooltip": false,
   },
-  "custom/dnf-upgrades": {
-    "format": "  {} ",
-    "interval": 30,
-    "exec": "dnf list --upgrades | sed '0,/^Available Upgrades$/d' | wc -l"
+  "clock": {
+    "on-click-right": "wallpaper_random",
+    "interval": 1,
+    "format": "{:%H:%M  %A %b %d}",
+    "tooltip": true,
+    "tooltip-format": "<tt>{calendar}</tt>",
   },
   "memory": {
-    "interval": 30,
-    "format": "{used:0.1f}G/{total:0.1f}G"
+    "interval": 1,
+    "format": "﬙ {percentage}%",
+    "states": {
+      "warning": 85,
+    },
   },
-  "custom/playerctl": {
-    "interval": 10,
-    "format": " {} ",
-    "exec": "$HOME/.local/bin/gettrack.sh"
+  "cpu": {
+    "interval": 1,
+    "format": " {usage}%",
+  },
+  "network": {
+    "interval": 1,
+    "format-wifi": "說 {essid}",
+    "format-ethernet": "  {ifname}",
+    "format-linked": "說 {essid} (No IP)",
+    "format-disconnected": "說 Disconnected",
+    "tooltip": false,
+  },
+  "temperature": {
+    "tooltip": false,
+    "format": " {temperatureC}°C",
+  },
+  "custom/powermenu": {
+    "format": "",
+    "on-click": "~/.config/rofi/powermenu.sh",
+    "tooltip": false,
+  },
+  "tray": {
+    "icon-size": 15,
+    "spacing": 5,
+  },
+  "custom/media": {
+      "format": "{icon} {}",
+      "escape": true,
+      "return-type": "json",
+      "max-length": 40,
+      "on-click": "playerctl play-pause",
+      "on-click-right": "playerctl stop",
+      "smooth-scrolling-threshold": 5, // This value was tested using a trackpad, it should be lowered if using a mouse.
+      "on-scroll-up": "playerctl next",
+      "on-scroll-down": "playerctl previous",
+      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+  },
+  "custom/vpn": {
+    "format": " VPN ONLINE",
+    "exec": "echo '{\"class\": \"connected\"}'",
+    "exec-if": "test -d /proc/sys/net/ipv4/conf/tun0",
+    "return-type": "json",
+    "interval": 5
   }
 }
