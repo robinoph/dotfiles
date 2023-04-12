@@ -7,18 +7,26 @@ local plugins = {
     end
   },
   {
-    "thecodesmith/vim-groovy",
-    ft = 'groovy'
+    "martinda/Jenkinsfile-vim-syntax",
+    lazy = false,
   },
   {
-    "martinda/Jenkinsfile-vim-syntax"
+    "thecodesmith/vim-groovy",
+    ft = 'groovy',
+    event = 'BufEnter Jenkinsfile'
   },
   {
     "neovim/nvim-lspconfig",
-    config = function()
-      require "plugins.configs.lspconfig"
-      require "custom.configs.lspconfig"
-    end
+        dependencies = {
+          "jose-elias-alvarez/null-ls.nvim",
+          config = function()
+            require "custom.configs.null-ls"
+          end,
+        },
+        config = function()
+          require "plugins.configs.lspconfig"
+          require "custom.configs.lspconfig"
+        end
   },
   {
     "williamboman/mason.nvim",
@@ -32,6 +40,10 @@ local plugins = {
    },
   {
     "ThePrimeAgen/vim-be-good",
+    lazy = false
+  },
+  {
+    "catppuccin/nvim",
     lazy = false
   }
 }
